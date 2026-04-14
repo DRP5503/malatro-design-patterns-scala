@@ -69,3 +69,5 @@ class TemplateConfigurationSmokeTest extends FunSuite:
       buildProperties.contains("sbt.version"),
       "Expected project/build.properties to declare sbt.version"
     )
+
+  
