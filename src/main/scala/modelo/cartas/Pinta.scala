@@ -1,5 +1,6 @@
 package cl.uchile.dcc
-package modelo
+package modelo.cartas
+
 
 abstract class Pinta(val tipo: String)
 

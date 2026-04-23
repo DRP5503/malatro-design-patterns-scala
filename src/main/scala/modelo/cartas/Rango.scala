@@ -1,5 +1,7 @@
 package cl.uchile.dcc
-package modelo
+package modelo.cartas
+
+import modelo.*
 
 abstract class ClasificacionRango(val nombre: String)
 

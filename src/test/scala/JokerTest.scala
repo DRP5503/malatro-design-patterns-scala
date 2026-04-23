@@ -1,5 +1,6 @@
 package cl.uchile.dcc
 import cl.uchile.dcc.modelo.*
+import cl.uchile.dcc.modelo.cartas.{Devious, EvenSteven, Greedy, ScaryFace}
 import munit.FunSuite
 
 class JokerTest extends FunSuite {

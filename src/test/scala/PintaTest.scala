@@ -1,5 +1,6 @@
 package cl.uchile.dcc
 import cl.uchile.dcc.modelo.*
+import cl.uchile.dcc.modelo.cartas.{Corazon, Diamante, Pica, Trebol}
 import munit.FunSuite
 
 class PintaTest extends FunSuite {

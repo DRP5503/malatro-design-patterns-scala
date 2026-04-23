@@ -1,5 +1,5 @@
 package cl.uchile.dcc
-package modelo
+package modelo.cartas
 
 class Carta(val rango: Rango, val pinta: Pinta) {
   def esIgual(otra:Carta): Boolean =

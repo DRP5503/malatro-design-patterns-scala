@@ -1,5 +1,6 @@
 package cl.uchile.dcc
 import cl.uchile.dcc.modelo.*
+import cl.uchile.dcc.modelo.cartas.{As, Dos, Jota, Kaiser, Quina, Tres}
 import munit.FunSuite
 
 class RangoTest extends FunSuite {

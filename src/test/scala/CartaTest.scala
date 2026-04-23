@@ -1,5 +1,6 @@
 package cl.uchile.dcc
 import cl.uchile.dcc.modelo.*
+import cl.uchile.dcc.modelo.cartas.{As, Carta, Corazon, Kaiser, Pica}
 import munit.FunSuite
 class CartaTest extends FunSuite {
   test("dos cartas iguales deben ser iguales") {
