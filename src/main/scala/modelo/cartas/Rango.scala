@@ -22,8 +22,11 @@ abstract class Rango(
     this.valor == otro.valor &&
     this.clasificacion.nombre == otro.clasificacion.nombre
   }
+  def ordenes: List[Int] = List(orden)
 }
-class As extends Rango(1, Impar)
+class As extends Rango(1, Impar) {
+  override def ordenes: List[Int] = List(1, 14)
+}
 class Dos extends Rango(2, Par)
 class Tres extends Rango(3, Impar)
 class Cuatro extends Rango(4, Par)

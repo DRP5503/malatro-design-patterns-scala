@@ -4,7 +4,7 @@ package modelo.cartas
 
 abstract class Pinta(val tipo: String)
 
-class Trebol extends Pinta("Trebol") 
-class Pica extends Pinta("Pica")
-class Corazon extends Pinta("Corazon")
-class Diamante extends Pinta("Diamante")
+case class Trebol() extends Pinta("Trebol")
+case class Pica() extends Pinta("Pica")
+case class Corazon() extends Pinta("Corazon")
+case class Diamante() extends Pinta("Diamante")
