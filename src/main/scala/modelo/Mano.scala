@@ -3,12 +3,15 @@ package modelo
 
 import modelo.cartas.{Carta, Joker}
 
-class Mano(var cartas: List[Carta], var jokers: List[Joker]) {
+class Mano(private var _cartas: List[Carta], private var _jokers: List[Joker]) {
+  def cartas: List[Carta] = _cartas
+  def jokers : List[Joker] = _jokers
+  
   def añadirCartas(carta:Carta): Unit={
-    cartas = cartas :+ carta
+    _cartas = _cartas :+ carta
   }
   def añadirJoker(joker: Joker): Unit={
-    jokers = jokers :+ joker
+    _jokers = _jokers :+ joker
   }
   def eliminarCartas(indices: List[Int]): Unit={
     var cartasNuevas = List[Carta]()
@@ -16,7 +19,7 @@ class Mano(var cartas: List[Carta], var jokers: List[Joker]) {
       if (!indices.contains(i))
         cartasNuevas = cartasNuevas :+ cartas(i)
     }
-    cartas = cartasNuevas
+    _cartas = cartasNuevas
   }
 
   def eliminarJoker(indices: List[Int]): Unit = {
@@ -25,7 +28,7 @@ class Mano(var cartas: List[Carta], var jokers: List[Joker]) {
       if (!indices.contains(i))
         jokersNuevos = jokersNuevos :+ jokers(i)
     }
-    jokers = jokersNuevos
+    _jokers = jokersNuevos
   }
 
   def jugarCartas(indices: List[Int]): List[Carta] = {

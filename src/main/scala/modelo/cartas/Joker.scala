@@ -3,7 +3,9 @@ package modelo.cartas
 
 import modelo.cartas.Joker
 
-abstract class Joker(val nombre: String)
+abstract class Joker(private val _nombre: String) {
+  def nombre: String = _nombre
+}
 
 class Greedy extends Joker("Greedy Joker")
 class Devious extends Joker("Devious Joker")

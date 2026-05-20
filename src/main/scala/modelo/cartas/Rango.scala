@@ -10,10 +10,14 @@ object Par extends  ClasificacionRango("Par")
 object Impar extends  ClasificacionRango("Impar")
 
 abstract class Rango(
-             val orden: Int,
-             val clasificacion: ClasificacionRango,
-             val valor: Int
+             private val _orden: Int,
+             private val _clasificacion: ClasificacionRango,
+             private val _valor: Int
            ){
+  def orden: Int = _orden
+  def clasificacion: ClasificacionRango = _clasificacion
+  def valor: Int = _valor
+  
   def this(orden: Int, clasificacion: ClasificacionRango)=
     this(orden, clasificacion, orden)
 
