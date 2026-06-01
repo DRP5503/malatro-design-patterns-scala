@@ -8,6 +8,7 @@ class Mano(private var _cartas: List[Carta], private var _jokers: List[Joker]) {
   def jokers : List[Joker] = _jokers
   
   def añadirCartas(carta:Carta): Unit={
+
     _cartas = _cartas :+ carta
   }
   def añadirJoker(joker: Joker): Unit={

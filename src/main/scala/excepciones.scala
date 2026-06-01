@@ -1,0 +1,14 @@
+package cl.uchile.dcc
+
+class ManoLlenaException(mensaje: String) extends Exception(mensaje)
+class JokersLlenosException(mensaje: String) extends Exception(mensaje)
+class IndiceCartaInvalidoException(mensaje: String) extends Exception(mensaje)
+class IndiceJokerInvalidoException(mensaje: String) extends Exception(mensaje)
+class LimiteManoException(mensaje: String) extends Exception(mensaje)
+class LimiteDescartesException(mensaje: String) extends Exception(mensaje)
+class CartasMaximasException(mensaje: String) extends Exception(mensaje)
+class CartasMinimasException(mensaje: String) extends Exception(mensaje)
+class IndicesCartasInvalidosException(mensaje: String) extends Exception(mensaje)
+class DescartesMaximosException(mensaje: String) extends Exception(mensaje)
+class DescartesMinimosException(mensaje: String) extends Exception(mensaje)
+class IndicesDescartesInvalidosException(mensaje: String) extends Exception(mensaje)
