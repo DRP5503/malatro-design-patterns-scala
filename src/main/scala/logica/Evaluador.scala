@@ -3,18 +3,18 @@ package logica
 import modelo.cartas.Carta
 
 import cl.uchile.dcc.modelo.Jugada
-import cl.uchile.dcc.modelo.Jugada.{CartaAlta, Color, Escalera, EscaleraColor, Par, Trio}
+import cl.uchile.dcc.modelo.*
 
 //el proposito principal de evaluador es indentificar la jugada
 //y calcular el puntaje correspondiente
 object Evaluador {
     def identificarJugada(cartas: List[Carta]): Jugada= {
-        if (esEscaleraColor(cartas)) EscaleraColor
-        else if (esColor(cartas)) Color
-        else if (esEscalera(cartas)) Escalera
-        else if (esTrio(cartas)) Trio
-        else if (esPar(cartas)) Par
-        else CartaAlta
+        if (esEscaleraColor(cartas)) EscaleraColor()
+        else if (esColor(cartas)) Color()
+        else if (esEscalera(cartas)) Escalera()
+        else if (esTrio(cartas)) Trio()
+        else if (esPar(cartas)) JugadaPar()
+        else CartaAlta()
     }
 
     private def ordenarRangos(cartas: List[Carta]): List[Carta]=

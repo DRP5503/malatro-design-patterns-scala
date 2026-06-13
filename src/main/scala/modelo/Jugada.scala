@@ -1,13 +1,17 @@
 package cl.uchile.dcc
 package modelo
 
-import modelo.cartas.Carta
+import modelo.cartas.*
 
+abstract class Jugada(val chipsBase: Int, val multBase: Int) {
+  def applyScore(score: Puntaje, joker: Joker): Puntaje = {
+    joker.applyScore(score, this)
+  }
 
-enum Jugada(val chipsBase: Int, val multBase: Int):
-  case EscaleraColor extends Jugada(100, 8)
-  case Color extends Jugada(35, 4)
-  case Escalera extends Jugada(30, 4)
-  case Trio extends Jugada(30, 4)
-  case Par extends Jugada(10, 2)
-  case CartaAlta extends Jugada(5, 1)
+}
+case class EscaleraColor() extends Jugada(100, 8)
+case class Color() extends Jugada(35, 4)
+case class Escalera() extends Jugada(30, 4)
+case class Trio() extends Jugada(30, 4)
+case class JugadaPar() extends Jugada(10, 2)
+case class CartaAlta() extends Jugada(5, 1)

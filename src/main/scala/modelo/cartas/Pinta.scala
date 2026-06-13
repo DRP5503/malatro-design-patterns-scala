@@ -1,9 +1,15 @@
 package cl.uchile.dcc
 package modelo.cartas
 
+import modelo.Puntaje
+
 
 abstract class Pinta(private val _tipo: String) {
   def tipo: String = _tipo
+
+  def applyScore(score: Puntaje, joker: Joker): Puntaje = {
+    joker.applyScore(score, this)
+  }
 }
 
 case class Trebol() extends Pinta("Trebol")

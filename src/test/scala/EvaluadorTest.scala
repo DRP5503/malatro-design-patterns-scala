@@ -2,7 +2,7 @@ package cl.uchile.dcc
 
 import cl.uchile.dcc.modelo.cartas.*
 import cl.uchile.dcc.logica.Evaluador
-import cl.uchile.dcc.modelo.Jugada
+import cl.uchile.dcc.modelo.*
 import munit.FunSuite
 
 class EvaluadorTest extends FunSuite {
@@ -15,7 +15,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Cinco, new Diamante),
       new Carta(new Seis, new Diamante)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.EscaleraColor)
+    assertEquals(Evaluador.identificarJugada(cartas), EscaleraColor())
   }
 
   test("Color es identificado correctamente") {
@@ -26,7 +26,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Nueve, new Diamante),
       new Carta(new Kaiser, new Diamante)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.Color)
+    assertEquals(Evaluador.identificarJugada(cartas), Color())
   }
 
   test("Escalera es identificada correctamente") {
@@ -37,7 +37,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Cinco, new Pica),
       new Carta(new Seis, new Corazon)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.Escalera)
+    assertEquals(Evaluador.identificarJugada(cartas), Escalera())
   }
 
   test("Trio es identificado correctamente") {
@@ -46,7 +46,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Dos, new Diamante),
       new Carta(new Dos, new Trebol)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.Trio)
+    assertEquals(Evaluador.identificarJugada(cartas), Trio())
   }
 
   test("Par es identificado correctamente") {
@@ -54,7 +54,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Dos, new Corazon),
       new Carta(new Dos, new Diamante)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.Par)
+    assertEquals(Evaluador.identificarJugada(cartas), JugadaPar())
   }
 
   test("Carta Alta es identificada correctamente") {
@@ -63,7 +63,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Cinco, new Diamante),
       new Carta(new Kaiser, new Trebol)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.CartaAlta)
+    assertEquals(Evaluador.identificarJugada(cartas), CartaAlta())
   }
 
   // Tests de prioridad
@@ -75,7 +75,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Cinco, new Diamante),
       new Carta(new Seis, new Diamante)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.EscaleraColor)
+    assertEquals(Evaluador.identificarJugada(cartas), EscaleraColor())
   }
 
   test("Escalera de Color tiene prioridad sobre Escalera") {
@@ -86,7 +86,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Cinco, new Diamante),
       new Carta(new Seis, new Diamante)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.EscaleraColor)
+    assertEquals(Evaluador.identificarJugada(cartas), EscaleraColor())
   }
 
   // Tests de As en escaleras
@@ -98,7 +98,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Cuatro, new Pica),
       new Carta(new Cinco, new Corazon)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.Escalera)
+    assertEquals(Evaluador.identificarJugada(cartas), Escalera())
   }
 
   test("As actua como carta alta en escalera 10,J,Q,K,A") {
@@ -109,7 +109,7 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Kaiser, new Pica),
       new Carta(new As, new Corazon)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.Escalera)
+    assertEquals(Evaluador.identificarJugada(cartas), Escalera())
   }
 
   test("As actua como carta alta en escalera de color 10,J,Q,K,A") {
@@ -120,6 +120,6 @@ class EvaluadorTest extends FunSuite {
       new Carta(new Kaiser, new Corazon),
       new Carta(new As, new Corazon)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Jugada.EscaleraColor)
+    assertEquals(Evaluador.identificarJugada(cartas), EscaleraColor())
   }
 }

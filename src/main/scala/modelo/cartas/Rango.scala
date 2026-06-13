@@ -17,6 +17,10 @@ abstract class Rango(
   def orden: Int = _orden
   def clasificacion: ClasificacionRango = _clasificacion
   def valor: Int = _valor
+
+  def applyScore(score: Puntaje, joker: Joker): Puntaje = {
+    joker.applyScore(score, this)
+  }
   
   def this(orden: Int, clasificacion: ClasificacionRango)=
     this(orden, clasificacion, orden)

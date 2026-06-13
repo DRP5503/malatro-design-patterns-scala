@@ -68,18 +68,3 @@ sbt run
 
 ## Entrega
 
-Para subir su entrega, deberán crear un **Pull Request** en GitHub desde la rama `entrega-final-0` hacia `main`, con el título **"Tarea 0 - Entrega Final"**.
-
-**IMPORTANTE: No hacer merge** del Pull Request. El cuerpo docente **solo revisará** la pull request realizada.
-
-Entregar por **U-Cursos** un archivo llamado `entrega-final-0.txt` que contenga:
-- Su nombre completo
-- El link al Pull Request
-   
-Este es el formato que deben seguir:
-```txt
-Nombre: Perico Los Palotes (lo cambian por su nombre)
-Pull Request: https://github.com/... (completan los "..." con el resto del link)
-```
-
-Esta tarea es **obligatoria** y corresponde al **5% de la nota de Tareas**.
