@@ -9,7 +9,9 @@ abstract class Jugada(val chipsBase: Int, val multBase: Int) {
   }
 
 }
-case class EscaleraColor() extends Jugada(100, 8)
+case class EscaleraColor() extends Jugada(100, 8) {
+  override def applyScore(score: Puntaje, joker: Joker): Puntaje = joker.applyScore(score, this)
+}
 case class Color() extends Jugada(35, 4)
 case class Escalera() extends Jugada(30, 4) {
   override def applyScore(score: Puntaje, joker: Joker): Puntaje = joker.applyScore(score, this)

@@ -2,7 +2,7 @@ package cl.uchile.dcc
 package modelo.cartas
 
 
-import cl.uchile.dcc.modelo.{Escalera, Jugada, Puntaje}
+import cl.uchile.dcc.modelo.{Escalera, Jugada, Puntaje,EscaleraColor}
 import cl.uchile.dcc.modelo.cartas.Par
 
 abstract class Joker(private val _nombre: String) {
@@ -16,6 +16,7 @@ abstract class Joker(private val _nombre: String) {
   def applyScore(score: Puntaje, jugada: Escalera): Puntaje = applyScore(score, jugada: Jugada)
   def applyScore(score: Puntaje, clasificacion: Par): Puntaje = applyScore(score, clasificacion: ClasificacionRango)
   def applyScore(score: Puntaje, clasificacion: Figura): Puntaje = applyScore(score, clasificacion: ClasificacionRango)
+  def applyScore(score: Puntaje, jugada: EscaleraColor): Puntaje = applyScore(score, jugada: Jugada)
 }
 
 class Greedy extends Joker("Greedy Joker") {
@@ -23,6 +24,7 @@ class Greedy extends Joker("Greedy Joker") {
 }
 class Devious extends Joker("Devious Joker") {
   override def applyScore(score: Puntaje, jugada: Escalera): Puntaje = score.agregarChips(100)
+  override def applyScore(score: Puntaje, jugada: EscaleraColor): Puntaje = score.agregarChips(100)
 }
 class EvenSteven extends Joker("EvenSteven Joker") {
   override def applyScore(score: Puntaje, clasificacion: Par): Puntaje = score.agregarMult(4)
