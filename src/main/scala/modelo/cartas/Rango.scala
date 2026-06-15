@@ -3,11 +3,15 @@ package modelo.cartas
 
 import modelo.*
 
-abstract class ClasificacionRango(val nombre: String)
+abstract class ClasificacionRango(val nombre: String) {
+  def applyScore(score: Puntaje, joker: Joker): Puntaje = joker.applyScore(score, this)
+}
 
-object Figura extends ClasificacionRango("Figura")
-object Par extends  ClasificacionRango("Par")
-object Impar extends  ClasificacionRango("Impar")
+case class Figura() extends ClasificacionRango("Figura")
+case class Par() extends  ClasificacionRango("Par") {
+  override def applyScore(score: Puntaje, joker: Joker): Puntaje = joker.applyScore(score, this)
+}
+case class Impar() extends  ClasificacionRango("Impar")
 
 abstract class Rango(
              private val _orden: Int,
