@@ -6,8 +6,6 @@ import modelo.cartas.{Carta, Joker}
 class Mano(private var _cartas: List[Carta], private var _jokers: List[Joker]) {
   def cartas: List[Carta] = _cartas
   def jokers : List[Joker] = _jokers
-  private var _descartes: Int = 0
-  def descartes: Int = _descartes
   
   def añadirCartas(carta:Carta): Unit={
     if (_cartas.length == 8)
@@ -60,8 +58,6 @@ class Mano(private var _cartas: List[Carta], private var _jokers: List[Joker]) {
   }
 
   def descartarCartas(indices: List[Int]): Unit = {
-    if (_descartes == 3)
-      throw new LimiteDescartesException("No se puede descartar mas de 3 veces")
     if (indices.length > 5)
       throw new DescartesMaximosException("No se pueden descartar mas de 5 cartas")
     if (indices.length < 1)
@@ -70,7 +66,6 @@ class Mano(private var _cartas: List[Carta], private var _jokers: List[Joker]) {
       if (i < 0 || i >= _cartas.length)
         throw new IndicesDescartesInvalidosException(s"El indice $i no es valido")
     }
-    _descartes += 1
     eliminarCartas(indices)
   }
 }
