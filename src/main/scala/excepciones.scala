@@ -12,3 +12,6 @@ class IndicesCartasInvalidosException(mensaje: String) extends Exception(mensaje
 class DescartesMaximosException(mensaje: String) extends Exception(mensaje)
 class DescartesMinimosException(mensaje: String) extends Exception(mensaje)
 class IndicesDescartesInvalidosException(mensaje: String) extends Exception(mensaje)
+class AccionInvalidaEstadoException(mensaje: String) extends Exception(mensaje)
+class NoQuedanJugadasException(mensaje: String) extends Exception(mensaje)
+class NoQuedanDescartesException(mensaje: String) extends Exception(mensaje)
