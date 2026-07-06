@@ -1,24 +1,24 @@
 package cl.uchile.dcc
-import cl.uchile.dcc.modelo.*
-import cl.uchile.dcc.modelo.cartas.{As, Carta, Corazon, Kaiser, Pica}
+import cl.uchile.dcc.model.*
+import cl.uchile.dcc.model.cards.{As, Card, Heart, King, Spade}
 import munit.FunSuite
 class CartaTest extends FunSuite {
-  test("dos cartas iguales deben ser iguales") {
-    val carta1 = new Carta(new As, new Corazon)
-    val carta2 = new Carta(new As, new Corazon)
+  test("Two cards iguales deben ser iguales") {
+    val carta1 = new Card(new As, new Heart)
+    val carta2 = new Card(new As, new Heart)
 
-    assert(carta1.esIgual(carta2))
+    assert(carta1.isEqual(carta2))
   }
-  test("dos cartas distintas no deben ser iguales") {
-    val carta1 = new Carta(new As, new Corazon)
-    val carta2 = new Carta(new Kaiser, new Pica)
+  test("Two cards distintas no deben ser iguales") {
+    val carta1 = new Card(new As, new Heart)
+    val carta2 = new Card(new King, new Spade)
 
-    assert(!carta1.esIgual(carta2))
+    assert(!carta1.isEqual(carta2))
   }
-  test("cartas con mismo rango pero distinta pinta no son iguales") {
-    val carta1 = new Carta(new As, new Corazon)
-    val carta2 = new Carta(new As, new Pica)
+  test("cards con mismo Rank pero distinta Suit no son iguales") {
+    val carta1 = new Card(new As, new Heart)
+    val carta2 = new Card(new As, new Spade)
 
-    assert(!carta1.esIgual(carta2))
+    assert(!carta1.isEqual(carta2))
   }
 }

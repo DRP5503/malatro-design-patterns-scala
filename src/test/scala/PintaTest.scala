@@ -1,37 +1,37 @@
 package cl.uchile.dcc
-import cl.uchile.dcc.modelo.*
-import cl.uchile.dcc.modelo.cartas.{Corazon, Diamante, Pica, Trebol}
+import cl.uchile.dcc.model.*
+import cl.uchile.dcc.model.cards.{Heart, Diamond, Spade, Club}
 import munit.FunSuite
 
 class PintaTest extends FunSuite {
 
-  test("Corazon tiene el nombre correcto") {
-    val corazon = new Corazon()
+  test("Heart tiene el name correcto") {
+    val Heart = new Heart()
 
-    assert(corazon.tipo == "Corazon")
+    assert(Heart.suitType == "Heart")
   }
 
-  test("Pica tiene el nombre correcto") {
-    val pica = new Pica()
+  test("Spade tiene el name correcto") {
+    val Spade = new Spade()
 
-    assert(pica.tipo == "Pica")
+    assert(Spade.suitType == "Spade")
   }
 
-  test("Diamante tiene el nombre correcto") {
-    val diamante = new Diamante()
+  test("Diamond tiene el name correcto") {
+    val Diamond = new Diamond()
 
-    assert(diamante.tipo == "Diamante")
+    assert(Diamond.suitType == "Diamond")
   }
 
-  test("Trebol tiene el nombre correcto") {
-    val trebol = new Trebol()
+  test("Club tiene el name correcto") {
+    val Club = new Club()
 
-    assert(trebol.tipo == "Trebol")
+    assert(Club.suitType == "Club")
   }
-  test("pintas distintas tienen nombres distintos") {
-    val corazon = new Corazon()
-    val pica = new Pica()
+  test("suits distintas tienen nombres distintos") {
+    val Heart = new Heart()
+    val Spade = new Spade()
 
-    assert(corazon.tipo != pica.tipo)
+    assert(Heart.suitType != Spade.suitType)
   }
 }

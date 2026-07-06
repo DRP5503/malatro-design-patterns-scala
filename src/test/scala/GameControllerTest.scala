@@ -2,47 +2,47 @@ package cl.uchile.dcc
 
 import java.io.ByteArrayOutputStream
 
-import logica.*
-import modelo.Mano
-import modelo.cartas.*
+import logic.*
+import model.Hand
+import model.cards.*
 import munit.FunSuite
 
 class GameControllerTest extends FunSuite {
-  private def cartaDosCorazon: Carta =
-    new Carta(new Dos, new Corazon)
+  private def cartaDosCorazon: Card =
+    new Card(new Two, new Heart)
 
-  private def cartaDosDiamante: Carta =
-    new Carta(new Dos, new Diamante)
+  private def cartaDosDiamante: Card =
+    new Card(new Two, new Diamond)
 
-  private def cartaTresCorazon: Carta =
-    new Carta(new Tres, new Corazon)
+  private def cartaTresCorazon: Card =
+    new Card(new Three, new Heart)
 
-  private def cartaTresDiamante: Carta =
-    new Carta(new Tres, new Diamante)
+  private def cartaTresDiamante: Card =
+    new Card(new Three, new Diamond)
 
-  private def cartaCuatroCorazon: Carta =
-    new Carta(new Cuatro, new Corazon)
+  private def cartaCuatroCorazon: Card =
+    new Card(new Four, new Heart)
 
-  private def cartaCuatroTrebol: Carta =
-    new Carta(new Cuatro, new Trebol)
+  private def cartaCuatroTrebol: Card =
+    new Card(new Four, new Club)
 
-  private def cartaCincoCorazon: Carta =
-    new Carta(new Cinco, new Corazon)
+  private def cartaCincoCorazon: Card =
+    new Card(new Five, new Heart)
 
-  private def cartaCincoPica: Carta =
-    new Carta(new Cinco, new Pica)
+  private def cartaCincoPica: Card =
+    new Card(new Five, new Spade)
 
-  private def cartaSeisCorazon: Carta =
-    new Carta(new Seis, new Corazon)
+  private def cartaSeisCorazon: Card =
+    new Card(new Six, new Heart)
 
-  private def cartaSieteCorazon: Carta =
-    new Carta(new Siete, new Corazon)
+  private def cartaSieteCorazon: Card =
+    new Card(new Seven, new Heart)
 
-  private def cartaNueveCorazon: Carta =
-    new Carta(new Nueve, new Corazon)
+  private def cartaNueveCorazon: Card =
+    new Card(new Nine, new Heart)
 
-  private def cartaKaiserCorazon: Carta =
-    new Carta(new Kaiser, new Corazon)
+  private def cartaKaiserCorazon: Card =
+    new Card(new King, new Heart)
 
   test("GameController parte en InitializingState") {
     val controller = new GameController()
@@ -50,13 +50,13 @@ class GameControllerTest extends FunSuite {
     assert(controller.actualState.isInstanceOf[InitializingState])
   }
 
-  test("GameController usa puntaje minimo por defecto") {
+  test("GameController usa Score minimo por defecto") {
     val controller = new GameController()
 
     assertEquals(controller.minimumScore, 300)
   }
 
-  test("GameController permite definir puntaje minimo custom") {
+  test("GameController permite definir Score minimo custom") {
     val controller = new GameController(minimumScore = 50)
 
     assertEquals(controller.minimumScore, 50)
@@ -79,13 +79,13 @@ class GameControllerTest extends FunSuite {
     assertEquals(controller.score, 0)
   }
 
-  test("startGame crea una mano nueva con jugadas y descartes disponibles") {
+  test("startGame crea una Hand nueva con jugadas y descartes disponibles") {
     val controller = new GameController()
 
     controller.startGame()
 
-    assertEquals(controller.mano.playsLeft, 3)
-    assertEquals(controller.mano.discardsLeft, 3)
+    assertEquals(controller.Hand.playsLeft, 3)
+    assertEquals(controller.Hand.discardsLeft, 3)
   }
 
   test("resetGame deja al controller en PlayerInTurnState con score reiniciado") {
@@ -97,22 +97,22 @@ class GameControllerTest extends FunSuite {
 
     assertEquals(controller.score, 0)
     assert(controller.actualState.isInstanceOf[PlayerInTurnState])
-    assertEquals(controller.mano.playsLeft, 3)
-    assertEquals(controller.mano.discardsLeft, 3)
+    assertEquals(controller.Hand.playsLeft, 3)
+    assertEquals(controller.Hand.discardsLeft, 3)
   }
 
-  test("resetGame reemplaza la mano actual por una mano nueva") {
+  test("resetGame reemplaza la Hand actual por una Hand nueva") {
     val controller = new GameController()
     controller.startGame()
-    val oldHand = controller.mano
-    controller.mano = new Mano(List(cartaDosCorazon), List(), 1, 1)
+    val oldHand = controller.Hand
+    controller.Hand = new Hand(List(cartaDosCorazon), List(), 1, 1)
 
     controller.resetGame()
 
-    assertNotEquals(controller.mano, oldHand)
-    assertEquals(controller.mano.cartas, List())
-    assertEquals(controller.mano.playsLeft, 3)
-    assertEquals(controller.mano.discardsLeft, 3)
+    assertNotEquals(controller.Hand, oldHand)
+    assertEquals(controller.Hand.cards, List())
+    assertEquals(controller.Hand.playsLeft, 3)
+    assertEquals(controller.Hand.discardsLeft, 3)
   }
 
   test("changeState actualiza el estado actual") {
@@ -127,7 +127,7 @@ class GameControllerTest extends FunSuite {
   test("playCards delega en el estado actual") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon, cartaDosDiamante),
       List()
     )
@@ -135,14 +135,14 @@ class GameControllerTest extends FunSuite {
     controller.playCards(List(0, 1))
 
     assertEquals(controller.score, 28)
-    assertEquals(controller.mano.playsLeft, 2)
-    assertEquals(controller.mano.cartas, List())
+    assertEquals(controller.Hand.playsLeft, 2)
+    assertEquals(controller.Hand.cards, List())
   }
 
-  test("playCards acumula puntaje en jugadas consecutivas") {
+  test("playCards acumula Score en jugadas consecutivas") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon, cartaDosDiamante, cartaTresCorazon, cartaTresDiamante),
       List(),
       2,
@@ -155,14 +155,14 @@ class GameControllerTest extends FunSuite {
     }
 
     assertEquals(controller.score, 60)
-    assertEquals(controller.mano.playsLeft, 0)
+    assertEquals(controller.Hand.playsLeft, 0)
     assert(controller.actualState.isInstanceOf[FinalState])
   }
 
-  test("playCards puede resolver una escalera de color desde el controller") {
+  test("playCards puede resolver una Straight de Flush desde el controller") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(
         cartaDosCorazon,
         cartaTresCorazon,
@@ -176,13 +176,13 @@ class GameControllerTest extends FunSuite {
     controller.playCards(List(0, 1, 2, 3, 4))
 
     assertEquals(controller.score, 960)
-    assertEquals(controller.mano.playsLeft, 2)
+    assertEquals(controller.Hand.playsLeft, 2)
   }
 
-  test("playCards puede resolver un color desde el controller") {
+  test("playCards puede resolver un Flush desde el controller") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(
         cartaDosCorazon,
         cartaCincoCorazon,
@@ -196,13 +196,13 @@ class GameControllerTest extends FunSuite {
     controller.playCards(List(0, 1, 2, 3, 4))
 
     assertEquals(controller.score, 272)
-    assertEquals(controller.mano.playsLeft, 2)
+    assertEquals(controller.Hand.playsLeft, 2)
   }
 
-  test("playCards puede resolver una escalera desde el controller") {
+  test("playCards puede resolver una Straight desde el controller") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(
         cartaDosCorazon,
         cartaTresDiamante,
@@ -216,27 +216,27 @@ class GameControllerTest extends FunSuite {
     controller.playCards(List(0, 1, 2, 3, 4))
 
     assertEquals(controller.score, 200)
-    assertEquals(controller.mano.playsLeft, 2)
+    assertEquals(controller.Hand.playsLeft, 2)
   }
 
   test("discardCards delega en el estado actual") {
     val controller = new GameController()
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon, cartaDosDiamante),
       List()
     )
 
     controller.discardCards(List(1))
 
-    assertEquals(controller.mano.discardsLeft, 2)
-    assertEquals(controller.mano.cartas.length, 1)
+    assertEquals(controller.Hand.discardsLeft, 2)
+    assertEquals(controller.Hand.cards.length, 1)
   }
 
   test("playCards antes de iniciar la partida propaga error del estado actual") {
     val controller = new GameController()
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.playCards(List(0))
     }
   }
@@ -244,7 +244,7 @@ class GameControllerTest extends FunSuite {
   test("discardCards antes de iniciar la partida propaga error del estado actual") {
     val controller = new GameController()
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.discardCards(List(0))
     }
   }
@@ -253,7 +253,7 @@ class GameControllerTest extends FunSuite {
     val controller = new GameController()
     controller.startGame()
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.startGame()
     }
   }
@@ -261,7 +261,7 @@ class GameControllerTest extends FunSuite {
   test("resetGame permite volver a jugar despues de llegar a FinalState") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon),
       List(),
       1,
@@ -275,14 +275,14 @@ class GameControllerTest extends FunSuite {
 
     assert(controller.actualState.isInstanceOf[PlayerInTurnState])
     assertEquals(controller.score, 0)
-    assertEquals(controller.mano.playsLeft, 3)
-    assertEquals(controller.mano.discardsLeft, 3)
+    assertEquals(controller.Hand.playsLeft, 3)
+    assertEquals(controller.Hand.discardsLeft, 3)
   }
 
   test("flujo completo termina en victoria usando la API publica del controller") {
     val controller = new GameController(minimumScore = 10)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon, cartaDosDiamante),
       List(),
       1,
@@ -302,7 +302,7 @@ class GameControllerTest extends FunSuite {
   test("flujo completo termina en derrota usando la API publica del controller") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon, cartaDosDiamante),
       List(),
       1,
@@ -316,6 +316,6 @@ class GameControllerTest extends FunSuite {
 
     assert(controller.actualState.isInstanceOf[FinalState])
     assertEquals(controller.score, 28)
-    assert(output.toString.contains("Game Over, no se llego al puntaje"))
+    assert(output.toString.contains("Game Over, no se llego al Score"))
   }
 }

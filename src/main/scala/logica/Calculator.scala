@@ -1,30 +1,30 @@
 package cl.uchile.dcc
-package logica
-import modelo.cartas.{Carta, Joker}
+package logic
+import model.cards.{Card, Joker}
 
-import cl.uchile.dcc.modelo.Puntaje
+import cl.uchile.dcc.model.Score
 
 object Calculator {
-  def calcularPuntaje(cartas: List[Carta], jokers: List[Joker]): Int = {
+  def calculateScore(cards: List[Card], jokers: List[Joker]): Int = {
 
-    val jugada = Evaluador.identificarJugada(cartas)
+    val PokerHand = Evaluator.identifyHand(cards)
 
-    var puntajeActual = new Puntaje(jugada.chipsBase, jugada.multBase)
-    println(s"Base: chips=${puntajeActual.chips} mult=${puntajeActual.mult}")
+    var currentScore = new Score(PokerHand.chipsBase, PokerHand.multBase)
+    println(s"Base: chips=${currentScore.chips} mult=${currentScore.mult}")
 
-    for (carta <- cartas) {
-      puntajeActual = puntajeActual.agregarChips(carta.rango.valor)
+    for (Card <- cards) {
+      currentScore = currentScore.addChips(Card.Rank.value)
     }
     for (joker <- jokers) {
-      puntajeActual = jugada.applyScore(puntajeActual, joker)
+      currentScore = PokerHand.applyScore(currentScore, joker)
     }
 
-    println(s"Tras cartas: chips=${puntajeActual.chips} mult=${puntajeActual.mult}")
-    for (carta <- cartas) {
-      puntajeActual = carta.applyScore(puntajeActual, jokers)
+    println(s"Tras cards: chips=${currentScore.chips} mult=${currentScore.mult}")
+    for (Card <- cards) {
+      currentScore = Card.applyScore(currentScore, jokers)
     }
-    println(s"Tras jokers: chips=${puntajeActual.chips} mult=${puntajeActual.mult}")
-    (puntajeActual.chips * puntajeActual.mult).toInt
+    println(s"Tras jokers: chips=${currentScore.chips} mult=${currentScore.mult}")
+    (currentScore.chips * currentScore.mult).toInt
   }
 
 

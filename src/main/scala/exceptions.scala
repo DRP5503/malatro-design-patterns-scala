@@ -1,0 +1,17 @@
+package cl.uchile.dcc
+
+class HandFullException(message: String) extends Exception(message)
+class JokersFullException(message: String) extends Exception(message)
+class InvalidCardIndexException(message: String) extends Exception(message)
+class InvalidJokerIndexException(message: String) extends Exception(message)
+class HandLimitException(message: String) extends Exception(message)
+class DiscardLimitException(message: String) extends Exception(message)
+class MaxCardsException(message: String) extends Exception(message)
+class MinCardsException(message: String) extends Exception(message)
+class InvalidCardIndicesException(message: String) extends Exception(message)
+class MaxDiscardsException(message: String) extends Exception(message)
+class MinDiscardsException(message: String) extends Exception(message)
+class InvalidDiscardIndicesException(message: String) extends Exception(message)
+class InvalidStateActionException(message: String) extends Exception(message)
+class NoPlaysLeftException(message: String) extends Exception(message)
+class NoDiscardsLeftException(message: String) extends Exception(message)

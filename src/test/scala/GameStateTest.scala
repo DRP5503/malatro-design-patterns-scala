@@ -2,20 +2,20 @@ package cl.uchile.dcc
 
 import java.io.ByteArrayOutputStream
 
-import logica.*
-import modelo.*
-import modelo.cartas.*
+import logic.*
+import model.*
+import model.cards.*
 import munit.FunSuite
 
 class GameStateTest extends FunSuite {
-  private def cartaDosCorazon: Carta =
-    new Carta(new Dos, new Corazon)
+  private def cartaDosCorazon: Card =
+    new Card(new Two, new Heart)
 
-  private def cartaDosDiamante: Carta =
-    new Carta(new Dos, new Diamante)
+  private def cartaDosDiamante: Card =
+    new Card(new Two, new Diamond)
 
-  private def cartaTresTrebol: Carta =
-    new Carta(new Tres, new Trebol)
+  private def cartaTresTrebol: Card =
+    new Card(new Three, new Club)
 
   test("InitializingState.startGame reinicia la partida y pasa a PlayerInTurnState") {
     val controller = new GameController()
@@ -24,17 +24,17 @@ class GameStateTest extends FunSuite {
     controller.actualState.startGame()
 
     assertEquals(controller.score, 0)
-    assertEquals(controller.mano.cartas, List())
-    assertEquals(controller.mano.jokers, List())
-    assertEquals(controller.mano.playsLeft, 3)
-    assertEquals(controller.mano.discardsLeft, 3)
+    assertEquals(controller.Hand.cards, List())
+    assertEquals(controller.Hand.jokers, List())
+    assertEquals(controller.Hand.playsLeft, 3)
+    assertEquals(controller.Hand.discardsLeft, 3)
     assert(controller.actualState.isInstanceOf[PlayerInTurnState])
   }
 
-  test("PlayerInTurnState.playCards juega cartas, suma puntaje y descuenta una jugada") {
+  test("PlayerInTurnState.playCards juega cards, suma Score y descuenta una PokerHand") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon, cartaDosDiamante),
       List()
     )
@@ -42,29 +42,29 @@ class GameStateTest extends FunSuite {
     controller.playCards(List(0, 1))
 
     assertEquals(controller.score, 28)
-    assertEquals(controller.mano.playsLeft, 2)
-    assertEquals(controller.mano.cartas.length, 0)
+    assertEquals(controller.Hand.playsLeft, 2)
+    assertEquals(controller.Hand.cards.length, 0)
     assert(controller.actualState.isInstanceOf[PlayerInTurnState])
   }
 
-  test("PlayerInTurnState.discardCards descarta cartas y descuenta un descarte") {
+  test("PlayerInTurnState.discardCards descarta cards y descuenta un descarte") {
     val controller = new GameController()
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon, cartaTresTrebol),
       List()
     )
 
     controller.discardCards(List(0))
 
-    assertEquals(controller.mano.discardsLeft, 2)
-    assertEquals(controller.mano.cartas.length, 1)
+    assertEquals(controller.Hand.discardsLeft, 2)
+    assertEquals(controller.Hand.cards.length, 1)
   }
 
   test("cuando se acaban las jugadas, el estado cambia a FinalState") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon),
       List(),
       1,
@@ -74,23 +74,23 @@ class GameStateTest extends FunSuite {
     controller.playCards(List(0))
 
     assert(controller.actualState.isInstanceOf[FinalState])
-    assertEquals(controller.mano.playsLeft, 0)
+    assertEquals(controller.Hand.playsLeft, 0)
   }
 
-  test("FinalState no permite jugar cartas") {
+  test("FinalState no permite jugar cards") {
     val controller = new GameController()
     controller.changeState(new FinalState(controller))
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.playCards(List(0))
     }
   }
 
-  test("FinalState no permite descartar cartas") {
+  test("FinalState no permite descartar cards") {
     val controller = new GameController()
     controller.changeState(new FinalState(controller))
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.discardCards(List(0))
     }
   }
@@ -99,7 +99,7 @@ class GameStateTest extends FunSuite {
     val controller = new GameController()
     controller.startGame()
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.startGame()
     }
   }
@@ -108,7 +108,7 @@ class GameStateTest extends FunSuite {
     val controller = new GameController()
     controller.changeState(new FinalState(controller))
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.startGame()
     }
   }
@@ -116,7 +116,7 @@ class GameStateTest extends FunSuite {
   test("GameState.changeState por defecto lanza exception") {
     val controller = new GameController()
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.actualState.changeState(new PlayerInTurnState(controller))
     }
   }
@@ -124,7 +124,7 @@ class GameStateTest extends FunSuite {
   test("no se puede jugar desde InitializingState antes de startGame") {
     val controller = new GameController()
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.playCards(List(0))
     }
   }
@@ -132,45 +132,45 @@ class GameStateTest extends FunSuite {
   test("no se puede descartar desde InitializingState antes de startGame") {
     val controller = new GameController()
 
-    intercept[AccionInvalidaEstadoException] {
+    intercept[InvalidStateActionException] {
       controller.discardCards(List(0))
     }
   }
 
-  test("no se puede jugar si la mano no tiene jugadas disponibles") {
+  test("no se puede jugar si la Hand no tiene jugadas disponibles") {
     val controller = new GameController()
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon),
       List(),
       0,
       3
     )
 
-    intercept[NoQuedanJugadasException] {
+    intercept[NoPlaysLeftException] {
       controller.playCards(List(0))
     }
   }
 
-  test("no se puede descartar si la mano no tiene descartes disponibles") {
+  test("no se puede descartar si la Hand no tiene descartes disponibles") {
     val controller = new GameController()
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon),
       List(),
       3,
       0
     )
 
-    intercept[NoQuedanDescartesException] {
+    intercept[NoDiscardsLeftException] {
       controller.discardCards(List(0))
     }
   }
 
-  test("FinalState imprime mensaje de victoria si se alcanza el puntaje minimo") {
+  test("FinalState imprime message de victoria si se alcanza el Score minimo") {
     val controller = new GameController(minimumScore = 10)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon),
       List(),
       1,
@@ -186,10 +186,10 @@ class GameStateTest extends FunSuite {
     assert(output.toString.contains("Winner winner chicken dinner"))
   }
 
-  test("FinalState imprime mensaje de derrota si no se alcanza el puntaje minimo") {
+  test("FinalState imprime message de derrota si no se alcanza el Score minimo") {
     val controller = new GameController(minimumScore = 1000)
     controller.startGame()
-    controller.mano = new Mano(
+    controller.Hand = new Hand(
       List(cartaDosCorazon),
       List(),
       1,
@@ -202,6 +202,6 @@ class GameStateTest extends FunSuite {
     }
 
     assert(controller.actualState.isInstanceOf[FinalState])
-    assert(output.toString.contains("Game Over, no se llego al puntaje"))
+    assert(output.toString.contains("Game Over, no se llego al Score"))
   }
 }

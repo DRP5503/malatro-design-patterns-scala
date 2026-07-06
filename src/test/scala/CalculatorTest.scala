@@ -1,52 +1,52 @@
 package cl.uchile.dcc
-import modelo.*
-import modelo.cartas.*
-import logica.*
+import model.*
+import model.cards.*
+import logic.*
 import munit.FunSuite
 
 class CalculatorTest extends FunSuite {
-  test("Calculo de puntaje escalera de color con Greedy y Devious") {
-    val cartas = List(
-      new Carta(new Dos, new Diamante),
-      new Carta(new Tres, new Diamante),
-      new Carta(new Cuatro, new Diamante),
-      new Carta(new Cinco, new Diamante),
-      new Carta(new Seis, new Diamante)
+  test("Calculo de Score Straight de Flush con Greedy y Devious") {
+    val cards = List(
+      new Card(new Two, new Diamond),
+      new Card(new Three, new Diamond),
+      new Card(new Four, new Diamond),
+      new Card(new Five, new Diamond),
+      new Card(new Six, new Diamond)
     )
     val jokers = List(new Greedy, new Devious)
-    assertEquals(Calculator.calcularPuntaje(cartas, jokers), 5060)
+    assertEquals(Calculator.calculateScore(cards, jokers), 5060)
   }
 
-  test("Calculo de puntaje sin jokers") {
-    val cartas = List(
-      new Carta(new Dos, new Corazon),
-      new Carta(new Dos, new Diamante)
+  test("Calculo de Score sin jokers") {
+    val cards = List(
+      new Card(new Two, new Heart),
+      new Card(new Two, new Diamond)
     )
     val jokers = List()
-    // Par base: 10 chips + 2 + 2 = 14, mult 2 → 28
-    assertEquals(Calculator.calcularPuntaje(cartas, jokers), 28)
+    // Even base: 10 chips + 2 + 2 = 14, mult 2 → 28
+    assertEquals(Calculator.calculateScore(cards, jokers), 28)
   }
 
-    test("Calculo de puntaje con EvenSteven") {
-      val cartas = List(
-        new Carta(new Dos, new Corazon),
-        new Carta(new Dos, new Diamante)
+    test("Calculo de Score con EvenSteven") {
+      val cards = List(
+        new Card(new Two, new Heart),
+        new Card(new Two, new Diamond)
       )
       val jokers = List(new EvenSteven)
-      // Par base: 10 chips + 2 + 2 = 14, mult 2 + 4 + 4 = 10 → 140
-      assertEquals(Calculator.calcularPuntaje(cartas, jokers), 140)
+      // Even base: 10 chips + 2 + 2 = 14, mult 2 + 4 + 4 = 10 → 140
+      assertEquals(Calculator.calculateScore(cards, jokers), 140)
     }
 
-  test("Calculo de puntaje con ScaryFace") {
-    val cartas = List(
-      new Carta(new Jota, new Corazon),
-      new Carta(new Jota, new Diamante)
+  test("Calculo de Score con ScaryFace") {
+    val cards = List(
+      new Card(new Jack, new Heart),
+      new Card(new Jack, new Diamond)
     )
     val jokers = List(new ScaryFace)
-    // Par base: 10 chips + 10 + 10 = 30, mult 2
-    // ScaryFace: +30 por cada figura → +60 chips
+    // Even base: 10 chips + 10 + 10 = 30, mult 2
+    // ScaryFace: +30 por cada Face → +60 chips
     // Total: 90 * 2 = 180
-    assertEquals(Calculator.calcularPuntaje(cartas, jokers), 180)
+    assertEquals(Calculator.calculateScore(cards, jokers), 180)
   }
 }
 

@@ -1,12 +1,12 @@
 package cl.uchile.dcc
-package logica
+package logic
 
-import modelo.Mano
+import model.Hand
 
 class GameController(
     val minimumScore: Int = 300
 ) {
-  var mano: Mano = new Mano(List(), List())
+  var Hand: Hand = new Hand(List(), List())
   var score: Int = 0
   var actualState: GameState = new InitializingState(this)
 

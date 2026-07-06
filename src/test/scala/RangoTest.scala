@@ -1,66 +1,66 @@
 package cl.uchile.dcc
-import cl.uchile.dcc.modelo.*
-import cl.uchile.dcc.modelo.cartas.{As, Dos, Jota, Kaiser, Quina, Tres}
+import cl.uchile.dcc.model.*
+import cl.uchile.dcc.model.cards.{As, Two, Jack, King, Queen, Three}
 import munit.FunSuite
 
 class RangoTest extends FunSuite {
 
-  test("dos As deben ser iguales") {
+  test("Two As deben ser iguales") {
     val r1 = new As()
     val r2 = new As()
 
-    assert(r1.esIgual(r2))
+    assert(r1.isEqual(r2))
   }
 
-  test("As y Dos no deben ser iguales") {
+  test("As y Two no deben ser iguales") {
     val r1 = new As()
-    val r2 = new Dos()
+    val r2 = new Two()
 
-    assert(!r1.esIgual(r2))
+    assert(!r1.isEqual(r2))
   }
 
-  test("Dos tiene orden, valor y clasificacion correctos") {
-    val dos = new Dos()
+  test("Two tiene order, value y classification correctos") {
+    val Two = new Two()
 
-    assert(dos.orden == 2)
-    assert(dos.valor == 2)
-    assert(dos.clasificacion.nombre == "Par")
+    assert(Two.order == 2)
+    assert(Two.value == 2)
+    assert(Two.classification.name == "Even")
   }
 
-  test("Tres es impar") {
-    val tres = new Tres()
+  test("Three es Odd") {
+    val Three = new Three()
 
-    assert(tres.clasificacion.nombre == "Impar")
+    assert(Three.classification.name == "Odd")
   }
 
-  test("Jota es figura y vale 10") {
-    val jota = new Jota()
+  test("Jack es Face y vale 10") {
+    val Jack = new Jack()
 
-    assert(jota.orden == 11)
-    assert(jota.valor == 10)
-    assert(jota.clasificacion.nombre == "Figura")
+    assert(Jack.order == 11)
+    assert(Jack.value == 10)
+    assert(Jack.classification.name == "Face")
   }
 
-  test("Quina es figura y vale 10") {
-    val quina = new Quina()
+  test("Queen es Face y vale 10") {
+    val Queen = new Queen()
 
-    assert(quina.orden == 12)
-    assert(quina.valor == 10)
-    assert(quina.clasificacion.nombre == "Figura")
+    assert(Queen.order == 12)
+    assert(Queen.value == 10)
+    assert(Queen.classification.name == "Face")
   }
 
-  test("Kaiser es figura y vale 10") {
-    val kaiser = new Kaiser()
+  test("King es Face y vale 10") {
+    val King = new King()
 
-    assert(kaiser.orden == 13)
-    assert(kaiser.valor == 10)
-    assert(kaiser.clasificacion.nombre == "Figura")
+    assert(King.order == 13)
+    assert(King.value == 10)
+    assert(King.classification.name == "Face")
   }
 
-  test("Quina y Kaiser no son iguales") {
-    val quina = new Quina()
-    val kaiser = new Kaiser()
+  test("Queen y King no son iguales") {
+    val Queen = new Queen()
+    val King = new King()
 
-    assert(!quina.esIgual(kaiser))
+    assert(!Queen.isEqual(King))
   }
 }

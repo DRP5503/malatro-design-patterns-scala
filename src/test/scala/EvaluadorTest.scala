@@ -1,125 +1,125 @@
 package cl.uchile.dcc
 
-import cl.uchile.dcc.modelo.cartas.*
-import cl.uchile.dcc.logica.Evaluador
-import cl.uchile.dcc.modelo.*
+import cl.uchile.dcc.model.cards.*
+import cl.uchile.dcc.logic.Evaluator
+import cl.uchile.dcc.model.*
 import munit.FunSuite
 
 class EvaluadorTest extends FunSuite {
   // Tests de jugadas básicas
-  test("Escalera de Color es identificada correctamente") {
-    val cartas = List(
-      new Carta(new Dos, new Diamante),
-      new Carta(new Tres, new Diamante),
-      new Carta(new Cuatro, new Diamante),
-      new Carta(new Cinco, new Diamante),
-      new Carta(new Seis, new Diamante)
+  test("Straight de Flush es identificada correctamente") {
+    val cards = List(
+      new Card(new Two, new Diamond),
+      new Card(new Three, new Diamond),
+      new Card(new Four, new Diamond),
+      new Card(new Five, new Diamond),
+      new Card(new Six, new Diamond)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), EscaleraColor())
+    assertEquals(Evaluator.identifyHand(cards), StraightFlush())
   }
 
-  test("Color es identificado correctamente") {
-    val cartas = List(
-      new Carta(new Dos, new Diamante),
-      new Carta(new Cinco, new Diamante),
-      new Carta(new Siete, new Diamante),
-      new Carta(new Nueve, new Diamante),
-      new Carta(new Kaiser, new Diamante)
+  test("Flush es identificado correctamente") {
+    val cards = List(
+      new Card(new Two, new Diamond),
+      new Card(new Five, new Diamond),
+      new Card(new Seven, new Diamond),
+      new Card(new Nine, new Diamond),
+      new Card(new King, new Diamond)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Color())
+    assertEquals(Evaluator.identifyHand(cards), Flush())
   }
 
-  test("Escalera es identificada correctamente") {
-    val cartas = List(
-      new Carta(new Dos, new Corazon),
-      new Carta(new Tres, new Diamante),
-      new Carta(new Cuatro, new Trebol),
-      new Carta(new Cinco, new Pica),
-      new Carta(new Seis, new Corazon)
+  test("Straight es identificada correctamente") {
+    val cards = List(
+      new Card(new Two, new Heart),
+      new Card(new Three, new Diamond),
+      new Card(new Four, new Club),
+      new Card(new Five, new Spade),
+      new Card(new Six, new Heart)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Escalera())
+    assertEquals(Evaluator.identifyHand(cards), Straight())
   }
 
-  test("Trio es identificado correctamente") {
-    val cartas = List(
-      new Carta(new Dos, new Corazon),
-      new Carta(new Dos, new Diamante),
-      new Carta(new Dos, new Trebol)
+  test("ThreeOfAKind es identificado correctamente") {
+    val cards = List(
+      new Card(new Two, new Heart),
+      new Card(new Two, new Diamond),
+      new Card(new Two, new Club)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Trio())
+    assertEquals(Evaluator.identifyHand(cards), ThreeOfAKind())
   }
 
-  test("Par es identificado correctamente") {
-    val cartas = List(
-      new Carta(new Dos, new Corazon),
-      new Carta(new Dos, new Diamante)
+  test("Even es identificado correctamente") {
+    val cards = List(
+      new Card(new Two, new Heart),
+      new Card(new Two, new Diamond)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), JugadaPar())
+    assertEquals(Evaluator.identifyHand(cards), PairHand())
   }
 
-  test("Carta Alta es identificada correctamente") {
-    val cartas = List(
-      new Carta(new Dos, new Corazon),
-      new Carta(new Cinco, new Diamante),
-      new Carta(new Kaiser, new Trebol)
+  test("Card Alta es identificada correctamente") {
+    val cards = List(
+      new Card(new Two, new Heart),
+      new Card(new Five, new Diamond),
+      new Card(new King, new Club)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), CartaAlta())
+    assertEquals(Evaluator.identifyHand(cards), HighCard())
   }
 
   // Tests de prioridad
-  test("Escalera de Color tiene prioridad sobre Color") {
-    val cartas = List(
-      new Carta(new Dos, new Diamante),
-      new Carta(new Tres, new Diamante),
-      new Carta(new Cuatro, new Diamante),
-      new Carta(new Cinco, new Diamante),
-      new Carta(new Seis, new Diamante)
+  test("Straight de Flush tiene prioridad sobre Flush") {
+    val cards = List(
+      new Card(new Two, new Diamond),
+      new Card(new Three, new Diamond),
+      new Card(new Four, new Diamond),
+      new Card(new Five, new Diamond),
+      new Card(new Six, new Diamond)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), EscaleraColor())
+    assertEquals(Evaluator.identifyHand(cards), StraightFlush())
   }
 
-  test("Escalera de Color tiene prioridad sobre Escalera") {
-    val cartas = List(
-      new Carta(new Dos, new Diamante),
-      new Carta(new Tres, new Diamante),
-      new Carta(new Cuatro, new Diamante),
-      new Carta(new Cinco, new Diamante),
-      new Carta(new Seis, new Diamante)
+  test("Straight de Flush tiene prioridad sobre Straight") {
+    val cards = List(
+      new Card(new Two, new Diamond),
+      new Card(new Three, new Diamond),
+      new Card(new Four, new Diamond),
+      new Card(new Five, new Diamond),
+      new Card(new Six, new Diamond)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), EscaleraColor())
+    assertEquals(Evaluator.identifyHand(cards), StraightFlush())
   }
 
   // Tests de As en escaleras
-  test("As actua como carta baja en escalera A,2,3,4,5") {
-    val cartas = List(
-      new Carta(new As, new Corazon),
-      new Carta(new Dos, new Diamante),
-      new Carta(new Tres, new Trebol),
-      new Carta(new Cuatro, new Pica),
-      new Carta(new Cinco, new Corazon)
+  test("As actua como Card baja en Straight A,2,3,4,5") {
+    val cards = List(
+      new Card(new As, new Heart),
+      new Card(new Two, new Diamond),
+      new Card(new Three, new Club),
+      new Card(new Four, new Spade),
+      new Card(new Five, new Heart)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Escalera())
+    assertEquals(Evaluator.identifyHand(cards), Straight())
   }
 
-  test("As actua como carta alta en escalera 10,J,Q,K,A") {
-    val cartas = List(
-      new Carta(new Diez, new Corazon),
-      new Carta(new Jota, new Diamante),
-      new Carta(new Quina, new Trebol),
-      new Carta(new Kaiser, new Pica),
-      new Carta(new As, new Corazon)
+  test("As actua como Card alta en Straight 10,J,Q,K,A") {
+    val cards = List(
+      new Card(new Ten, new Heart),
+      new Card(new Jack, new Diamond),
+      new Card(new Queen, new Club),
+      new Card(new King, new Spade),
+      new Card(new As, new Heart)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), Escalera())
+    assertEquals(Evaluator.identifyHand(cards), Straight())
   }
 
-  test("As actua como carta alta en escalera de color 10,J,Q,K,A") {
-    val cartas = List(
-      new Carta(new Diez, new Corazon),
-      new Carta(new Jota, new Corazon),
-      new Carta(new Quina, new Corazon),
-      new Carta(new Kaiser, new Corazon),
-      new Carta(new As, new Corazon)
+  test("As actua como Card alta en Straight de Flush 10,J,Q,K,A") {
+    val cards = List(
+      new Card(new Ten, new Heart),
+      new Card(new Jack, new Heart),
+      new Card(new Queen, new Heart),
+      new Card(new King, new Heart),
+      new Card(new As, new Heart)
     )
-    assertEquals(Evaluador.identificarJugada(cartas), EscaleraColor())
+    assertEquals(Evaluator.identifyHand(cards), StraightFlush())
   }
 }
