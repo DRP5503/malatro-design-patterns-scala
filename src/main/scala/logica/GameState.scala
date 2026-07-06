@@ -48,7 +48,7 @@ class PlayerInTurnState(controller: GameController) extends GameState {
 
 class FinalState(controller: GameController) extends GameState {
   if (controller.score < controller.minimumScore)
-    println("Skill issue :(")
+    println("Game Over, no se llego al puntaje")
   else
     println("Winner winner chicken dinner")
 }
