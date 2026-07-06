@@ -20,8 +20,6 @@ abstract class GameState {
 class InitializingState(controller: GameController) extends GameState {
   override def startGame(): Unit = {
     controller.mano = new Mano(List(), List())
-    controller.playsLeft = controller.maxPlays
-    controller.discardsLeft = controller.maxDiscards
     controller.score = 0
     controller.changeState(new PlayerInTurnState(controller))
   }
@@ -29,24 +27,16 @@ class InitializingState(controller: GameController) extends GameState {
 
 class PlayerInTurnState(controller: GameController) extends GameState {
   override def playCards(indices: List[Int]): Unit = {
-    if (!controller.canPlay)
-      throw new NoQuedanJugadasException("No quedan jugadas disponibles")
-
     val playedCards = controller.mano.jugarCartas(indices)
     val points = Calculator.calcularPuntaje(playedCards, controller.mano.jokers)
 
     controller.addScore(points)
-    controller.consumePlay()
-    if (controller.playsLeft == 0)
+    if (controller.mano.playsLeft == 0)
       controller.changeState(new FinalState(controller))
   }
 
   override def discardCards(indices: List[Int]): Unit = {
-    if (!controller.canDiscard)
-      throw new NoQuedanDescartesException("No quedan descartes disponibles")
-
     controller.mano.descartarCartas(indices)
-    controller.consumeDiscard()
   }
 }
 

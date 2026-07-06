@@ -3,9 +3,16 @@ package modelo
 
 import modelo.cartas.{Carta, Joker}
 
-class Mano(private var _cartas: List[Carta], private var _jokers: List[Joker]) {
+class Mano(
+    private var _cartas: List[Carta],
+    private var _jokers: List[Joker],
+    private var _playsLeft: Int = 3,
+    private var _discardsLeft: Int = 3
+) {
   def cartas: List[Carta] = _cartas
   def jokers : List[Joker] = _jokers
+  def playsLeft: Int = _playsLeft
+  def discardsLeft: Int = _discardsLeft
   
   def añadirCartas(carta:Carta): Unit={
     if (_cartas.length == 8)
@@ -44,6 +51,8 @@ class Mano(private var _cartas: List[Carta], private var _jokers: List[Joker]) {
   }
 
   def jugarCartas(indices: List[Int]): List[Carta] = {
+    if (_playsLeft == 0)
+      throw new NoQuedanJugadasException("No quedan jugadas disponibles")
     if (indices.length > 5)
       throw new CartasMaximasException("No se pueden jugar mas de 5 cartas")
     if (indices.length < 1)
@@ -54,10 +63,13 @@ class Mano(private var _cartas: List[Carta], private var _jokers: List[Joker]) {
     }
     val cartasJugadas = indices.map(i => cartas(i))
     eliminarCartas(indices)
+    _playsLeft -= 1
     cartasJugadas
   }
 
   def descartarCartas(indices: List[Int]): Unit = {
+    if (_discardsLeft == 0)
+      throw new NoQuedanDescartesException("No quedan descartes disponibles")
     if (indices.length > 5)
       throw new DescartesMaximosException("No se pueden descartar mas de 5 cartas")
     if (indices.length < 1)
@@ -67,5 +79,6 @@ class Mano(private var _cartas: List[Carta], private var _jokers: List[Joker]) {
         throw new IndicesDescartesInvalidosException(s"El indice $i no es valido")
     }
     eliminarCartas(indices)
+    _discardsLeft -= 1
   }
 }
