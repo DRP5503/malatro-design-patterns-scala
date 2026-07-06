@@ -5,8 +5,7 @@ import model.cards.Card
 import cl.uchile.dcc.model.PokerHand
 import cl.uchile.dcc.model.*
 
-//el proposito principal de Evaluator es indentificar la PokerHand
-//y calcular el Score correspondiente
+
 object Evaluator {
     def identifyHand(cards: List[Card]): PokerHand= {
         if (isStraightFlush(cards)) StraightFlush()

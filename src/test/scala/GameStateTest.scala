@@ -1,10 +1,11 @@
 package cl.uchile.dcc
 
 import java.io.ByteArrayOutputStream
-
 import logic.*
 import model.*
 import model.cards.*
+
+import cl.uchile.dcc.logic.states.{FinalState, PlayerInTurnState}
 import munit.FunSuite
 
 class GameStateTest extends FunSuite {
