@@ -24,8 +24,5 @@ class GameController(
     actualState = new InitializingState(this)
     actualState.startGame()
   }
-
-  def addScore(points: Int): Unit = {
-    score += points
-  }
+  
 }

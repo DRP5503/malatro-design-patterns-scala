@@ -26,11 +26,16 @@ class InitializingState(controller: GameController) extends GameState {
 }
 
 class PlayerInTurnState(controller: GameController) extends GameState {
+
+  private def addScore(points: Int): Unit = {
+    controller.score += points
+  }
+
   override def playCards(indices: List[Int]): Unit = {
     val playedCards = controller.mano.jugarCartas(indices)
     val points = Calculator.calcularPuntaje(playedCards, controller.mano.jokers)
 
-    controller.addScore(points)
+    addScore(points)
     if (controller.mano.playsLeft == 0)
       controller.changeState(new FinalState(controller))
   }
@@ -43,7 +48,7 @@ class PlayerInTurnState(controller: GameController) extends GameState {
 
 class FinalState(controller: GameController) extends GameState {
   if (controller.score < controller.minimumScore)
-    println("Game Over, no se llego al puntaje")
+    println("Skill issue :(")
   else
     println("Winner winner chicken dinner")
 }
